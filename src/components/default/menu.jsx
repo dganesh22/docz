@@ -17,10 +17,11 @@ function Menu(props) {
                 await axios.get(`/api/auth/signout`)
                     .then(res => {
                         toast.success(res.data.msg)
+                        window.location.href= "/login"
+                        navigate(`/login`)
                         localStorage.removeItem('loginStatus')
                         localStorage.removeItem('loginToken')
-                        window.location.reload()
-                        navigate(`/`)
+
                     }).catch(err => toast.error(err.response.data.msg))
         }
     }
@@ -75,6 +76,11 @@ function Menu(props) {
                                                                 <li>
                                                                     <NavLink to={`/admin/home`} className="dropdown-item">
                                                                         Admin Dashboard
+                                                                    </NavLink>
+                                                                </li>
+                                                                <li>
+                                                                    <NavLink to={`/admin/category`} className="dropdown-item">
+                                                                        Document Category
                                                                     </NavLink>
                                                                 </li>
                                                             </ul>

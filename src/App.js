@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom'
 import  { AuthContext } from './AuthContext/Context'
 import AuthGaurd from './PrivateRoute/AuthGaurd'
 
@@ -32,6 +32,7 @@ function App() {
                      isAdmin && token ? (
                       <React.Fragment>
                             <Route path={`/admin/home`} element={<AdminHome/>} />
+                            <Route path={`/admin/category`} element={<Category/>} />
                       </React.Fragment>
                      ) : null
                   }
@@ -39,16 +40,16 @@ function App() {
                      isUser && token ? (
                       <React.Fragment>
                             <Route path={`/user/home`} element={<UserHome/>} />
+                            <Route path={`/single/:id`} element={<Single/>} />
                       </React.Fragment>
                      ) : null
                   }
               </Route>
 
              
-              <Route path={`/login`} element={<SignIn/>} />
-              <Route path={`/register`} element={<SignUp/>} />
-              <Route path={`/category/:name`} element={<Category/>} />
-              <Route path={`/single/:id`} element={<Single/>} />
+              <Route path={`/login`} element={token ? <Navigate to="/"/>: <SignIn/>} />
+              <Route path={`/register`} element={token ? <Navigate to={"/"} />: <SignUp/> } />
+
               <Route path={`/*`} element={<Pnf/>} />
           </Routes>
     </BrowserRouter>

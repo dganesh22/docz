@@ -8,6 +8,9 @@ import reportWebVitals from './reportWebVitals';
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap/dist/js/bootstrap.bundle"
 
+// bootstrap icons
+import "bootstrap-icons/font/bootstrap-icons.css"
+
 // toastify css
 import "react-toastify/dist/ReactToastify.css"
 import AuthProvider from './AuthContext/Context';
