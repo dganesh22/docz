@@ -62,6 +62,11 @@ function Menu(props) {
                                                                         User Dashboard
                                                                     </NavLink>
                                                                 </li>
+                                                                <li>
+                                                                    <NavLink to={`/doc/upload`} className="dropdown-item">
+                                                                        Upload Document
+                                                                    </NavLink>
+                                                                </li>
                                                             </ul>
                                                         </li>
                                                 </React.Fragment>

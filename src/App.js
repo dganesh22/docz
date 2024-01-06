@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import "./App.css"
 import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom'
 import  { AuthContext } from './AuthContext/Context'
 import AuthGaurd from './PrivateRoute/AuthGaurd'
@@ -14,6 +15,7 @@ import Single from './components/default/single'
 import Pnf from './components/util/pnf'
 import AdminHome from './components/admin/adminHome'
 import UserHome from './components/user/UserHome'
+import Upload from './components/user/Upload'
 
 function App() {
   const context = useContext(AuthContext)
@@ -40,6 +42,7 @@ function App() {
                      isUser && token ? (
                       <React.Fragment>
                             <Route path={`/user/home`} element={<UserHome/>} />
+                            <Route path={`/doc/upload`} element={<Upload/>} />
                             <Route path={`/single/:id`} element={<Single/>} />
                       </React.Fragment>
                      ) : null
