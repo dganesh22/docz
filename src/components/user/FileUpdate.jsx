@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback, useContext } from 'react'
 import axios from 'axios'
 import {toast} from 'react-toastify'
 import { AuthContext } from '../../AuthContext/Context'
+import { useParams, useNavigate } from 'react-router-dom'
 
-function Upload(props) {
+function FileUpdate(props) {
     const [category,setCategory] = useState([])
     const [image,setImage] = useState(false)
     const [data,setData] = useState({
@@ -16,6 +17,25 @@ function Upload(props) {
     const context = useContext(AuthContext)
     const token = context.token
     const currentUser = context.currentUser
+    const params = useParams()
+    const navigate = useNavigate()
+
+    const readFile = useCallback(() => {
+        const readData = async () => {
+            const res = await axios.get(`/api/document/single/${params.id}`, {
+                headers: {
+                    Authorization: `${token}`
+                }
+            })
+
+            setData(res.data.file)
+            setImage({
+                url: res.data.file.url,
+                public_id: res.data.file.public_id
+            })
+        }
+        readData()
+    },[])
 
     const readCategory = useCallback(() => {
         const readData = async () => {
@@ -31,6 +51,7 @@ function Upload(props) {
 
     useEffect(() => {
         readCategory()
+        readFile()
         setData({ user_id: currentUser._id})
     },[])
 
@@ -80,7 +101,7 @@ function Upload(props) {
                 ...data,
                 user_id: currentUser._id
             }
-            await axios.post(`/api/document/add`, finaldata, {
+            await axios.patch(`/api/document/update/${params.id}`, finaldata, {
                 headers: {
                     Authorization: `${token}`
                 }
@@ -93,10 +114,9 @@ function Upload(props) {
         }
     }
 
-
     const deleteImage = async (public_id) => {
         if(window.confirm(`Are you sure to delete an image?`)) {
-            await axios.post(`/api/file/delete/${public_id}`, { public_id }, {
+            await axios.post(`/api/file/delete/${params.id}`, { public_id }, {
                 headers: {
                   Authorization: `${token}`
                 }
@@ -113,9 +133,9 @@ function Upload(props) {
     <div className='container'>
         <div className="row">
             <div className="col-md-12 mt-5 text-center">
-                <h4 className="display-5 text-primary">Publish to World</h4>
+                <h4 className="display-5 text-primary">Edit the File</h4>
                 <p className="text-secondary">
-                    Upload image(png/jpeg), and pdf files
+                    Update file content
                 </p>
             </div>
         </div>
@@ -124,25 +144,25 @@ function Upload(props) {
                 
                     <div className="row">
                         <div className="col-lg-4 col-md-4 col-sm-12 mt-4">
-                            <div className="card">
-                                    {
-                                        image ? (
-                                            <div className="image-btn">
+                           <div className="card">
+                                {
+                                    image ? (
+                                        <div className="image-btn">
                                             <img src={image.url} alt="no image" className="card-img-top" />
                                             <button onClick={() => deleteImage(image.public_id)} className="btn btn-danger">
                                                 <i className="bi bi-trash"></i>
                                             </button>
                                         </div>
-                                        ): (
-                                            <div className="card-body">
-                                                <div className="form-group mt-2 mb-2 fileBox">
-                                                    <label htmlFor="myFile"> <i className="bi bi-upload"></i> Upload File</label>
-                                                    <input type="file" name="myFile" id="myFile" className="form-control" onChange={handleUpload} required />
-                                                </div>
+                                    ): (
+                                        <div className="card-body">
+                                            <div className="form-group mt-2 mb-2 fileBox">
+                                                <label htmlFor="myFile"> <i className="bi bi-upload"></i> Upload File</label>
+                                                <input type="file" name="myFile" id="myFile" className="form-control" onChange={handleUpload} required />
                                             </div>
-                                        )
-                                    }
-                            </div>
+                                        </div>
+                                    )
+                                }
+                           </div>
                         </div>
                         <div className="col-lg-8 col-md-8 col-sm-12 mt-4 mb-5">
                         <form autoComplete="off" method='post' onSubmit={submitHandler} >
@@ -179,7 +199,7 @@ function Upload(props) {
                                         </select>
                                     </div>
                                     <div className="form-group mt-2">
-                                        <input type="submit" value="Create New" className="btn btn-success" />
+                                        <input type="submit" value="Update File" className="btn btn-success" />
                                     </div>
                                 </div>
                             </div>
@@ -193,4 +213,4 @@ function Upload(props) {
   )
 }
 
-export default Upload
+export default FileUpdate

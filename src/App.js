@@ -16,6 +16,7 @@ import Pnf from './components/util/pnf'
 import AdminHome from './components/admin/adminHome'
 import UserHome from './components/user/UserHome'
 import Upload from './components/user/Upload'
+import FileUpdate from './components/user/FileUpdate'
 
 function App() {
   const context = useContext(AuthContext)
@@ -44,6 +45,7 @@ function App() {
                             <Route path={`/user/home`} element={<UserHome/>} />
                             <Route path={`/doc/upload`} element={<Upload/>} />
                             <Route path={`/single/:id`} element={<Single/>} />
+                            <Route path={`/update/:id`} element={<FileUpdate/>} />
                       </React.Fragment>
                      ) : null
                   }

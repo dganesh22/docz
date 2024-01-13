@@ -51,9 +51,9 @@ function Home(props) {
            {
               files && files.map((item,index) => {
                   return (
-                    <div className="col-md-3 mt-2 mb-2" key={index}>
+                    <div className="col-md-6 col-sm-12 col-lg-3 mt-2 mb-2" key={index}>
                         <div className="card">
-                            <embed src={item.url} alt={item.title} className="card-img-top" />
+                            <embed src={item.url} alt={item.title} className="card-img-top" height={250} />
                             <div className="card-body">
                                  <p className="badge bg-primary float-end"> {item.category} </p>
                                  <br />
